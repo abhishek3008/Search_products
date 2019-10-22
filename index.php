@@ -31,7 +31,7 @@
 
 			$results = array_map(function ($item) use ($input) {
 			    $input = strtolower($input);
-			    $lowerItem = strtolower($item);
+			    $lowerItem = str_replace(" ", "", strtolower($item));
 
 			    if (preg_match("/^.*{$input}.*$/m", $lowerItem)) return $item;
 			}, $products);
