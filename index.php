@@ -30,7 +30,7 @@
 			$input = $_POST['searchbox'];
 
 			$results = array_map(function ($item) use ($input) {
-			    $input = strtolower($input);
+			    $input = str_replace(" ", "", strtolower($input));
 			    $lowerItem = str_replace(" ", "", strtolower($item));
 
 			    if (preg_match("/^.*{$input}.*$/m", $lowerItem)) return $item;
