@@ -1,6 +1,5 @@
 <?php
 	$products = ['sensor','capacitor','1N4148 Diode set of 5','BC337 NPN general purpose transistor pack of 2','Electrolytic Capacitor 25volts pack of 5', 'IC base 14pin pack of 2'];
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,24 +24,34 @@
 		</div>
 	</div>
 
-	<?php
+	<div>Search Results</div>
+	<div>
+		<?php 
+			$input = $_POST['searchbox'];
 
-		if (isset($_POST['submit'])) {
-			# code...
-				?>
-				<div>Search Results</div>
-				<div>
+			$results = array_map(function ($item) use ($input) {
+			    $input = str_replace(" ", "", strtolower($input));
+			    $lowerItem = str_replace(" ", "", strtolower($item));
 
-					<!-- DISPLAY THE BEST RESULTS FROM THE PRODUCTS ARRAY -->
-					
-					<!-- Basic search should be there like searching capacitor must diplay all the products having capatior is name + best algo that can be applied for optimization -->
-					<!-- This case should be solved if I type "capacitor 25V" then it should display "Electrolytic Capacitor 25volts pack of 5" as the result -->
+			    if (preg_match("/^.*{$input}.*$/m", $lowerItem)) return $item;
+			}, $products);
 
-				</div>
-				<?php
-		}
+			$results = array_values(array_filter($results));
+		?>
 
-	?>
+		<ul>
+			<?php 
+				if (sizeof($results) > 0) {
+					foreach ($results as $result) {
+						echo "<li>{$result}</li>";
+					}
+				} else {
+					echo "No result found.";
+				}
+			?>
+		</ul>
+
+	</div>
 
 </body>
 </html>
